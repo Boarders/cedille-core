@@ -24,14 +24,19 @@ Library Core
     , array
     , text-short
     , bytestring
+    , unordered-containers
+    , mtl
 
 
   exposed-modules:
       Types
       Eval
       Norm
+      Syntax
       Parser.Token
       Parser.Util
+      Parser.AST
+      Eval.Erased
 --      Parser.Parse
 
 
