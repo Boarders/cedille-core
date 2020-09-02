@@ -35,7 +35,9 @@ data Value where
   VLam     :: Value -> Closure -> Value
   VEq      :: Value -> Value   -> Value
 
-
+-- to do:
+-- add a threshold for how many times to apply localEval and if threshold is reached
+-- then throw a timeout error
 eval :: Env -> ErTerm -> Value
 eval (top, loc) = go loc
   where
