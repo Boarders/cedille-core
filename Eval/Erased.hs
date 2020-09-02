@@ -48,7 +48,7 @@ eval (top, loc) = go loc
       ErLocVar var  -> evalLocVar locEnv var
       ErStar        -> VStar
       ErBox         -> VBox
-      ErApp f a     -> applyV (localEval f) (localEval a)
+      ErApp f a     -> applyV top (localEval f) (localEval a)
       ErForAll dom dep -> VForAll (localEval dom) (Closure locEnv dep)
       ErPi dom dep   -> VPi (localEval dom) (Closure locEnv dep)
       ErIota lhs dep -> VIota (localEval lhs) (Closure locEnv dep)  
@@ -68,8 +68,13 @@ evalTopVar topEnv name = maybe (evalTopErr "eval" name) id $ HashMap.lookup name
 evalLocVar :: LocEnv -> Int -> Value
 evalLocVar locEnv n = maybe (VNeutral n []) id $ lookupLocEnv n locEnv
 
-applyV :: Value -> Value -> Value
-applyV = undefined
+evalClosure :: TopEnv -> Closure -> Value -> Value
+evalClosure topEnv (Closure env body) argV = eval (topEnv, (extendLocEnv argV env)) body
+
+applyV :: TopEnv -> Value -> Value -> Value
+applyV topEnv (VLam _ clos) ~arg       = evalClosure topEnv clos arg
+applyV _      (VNeutral stuck sp) ~arg = VNeutral stuck (arg : sp)
+applyV _ _ _= undefined
 
 
 evalTopErr :: String -> Name -> Value
