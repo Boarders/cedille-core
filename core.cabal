@@ -44,7 +44,7 @@ Library Core
     Haskell2010
 
 
-test-suite test
+executable test
 
   main-is:
     Main.hs
@@ -56,11 +56,13 @@ test-suite test
     -threaded -with-rtsopts=-N
 
   hs-source-dirs:
-    test/
+    .
 
   build-depends:
       Core
     , base
+    , array
+    , bytestring    
     , QuickCheck
         ^>= 2.13.2
     , tasty
