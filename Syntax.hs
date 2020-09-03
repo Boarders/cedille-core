@@ -116,7 +116,7 @@ data ErTerm where
   ErLam       :: ErType -> ErTerm -> ErTerm
   ErLet       :: ErTerm -> ErType -> ErTerm -> ErTerm
   ErEq        :: ErTerm -> ErTerm -> ErType
-
+  deriving (Show, Eq)
 
 
 {-
