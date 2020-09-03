@@ -17,6 +17,7 @@ $alpha = [a-zA-Z]		-- alphabetic characters
 tokens :-
   $white+    ;
   "--".*     ;
+  module {tokChar Module }
   \( {tokChar LeftRoundBracket   }   
   \) {tokChar RightRoundBracket  }
   \[ {tokChar LeftSquareBracket  }
@@ -42,7 +43,7 @@ tokens :-
   λ  {tokChar Lam                }
   Π  {tokChar BigLam             }
   ≃  {tokChar Eq                 }
-  $alpha [$alpha $digit \_ \']*	{tok_app Var  }
+  $alpha [$alpha $digit \_ \']*	{tok_app Name  }
 
 {
 tokChar
@@ -61,7 +62,7 @@ tok_app
 tok_app f (_, _, _, s) len = pure (Token s')
   where
  -- note this doesn't handle unicode correctly
-    s' = Var . fromString . take len $ s
+    s' = Name . fromString . take len $ s
 
 
 type Name = Short.ShortByteString
@@ -71,13 +72,15 @@ data Token = Token !TokenType
 
 -- The token type:
 data TokenType =
+  Module             |
+  ModuleName Name    |
   LeftRoundBracket   |
   RightRoundBracket  |
   LeftSquareBracket  |
   RightSquareBracket |
   LeftCurlyBracket   |
   RightCurlyBracket  |
-  Var Name           |
+  Name Name          |
   At                 |
   Comma              |
   Dash               |
