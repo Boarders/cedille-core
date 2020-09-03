@@ -40,9 +40,10 @@ runLexer s = runParser tokens s
       t <-  tokenP
       if t == Token EOF then
         pure [t]
-      else do
-        ts <- tokens
-        pure (t : ts)
+        else
+        do
+          ts <- tokens
+          pure (t : ts)
       
 
 tokenP :: Parser Token
