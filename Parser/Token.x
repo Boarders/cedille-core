@@ -31,17 +31,19 @@ tokens :-
   :  {tokChar Ann                }
   ★  {tokChar Kind               }
   \. {tokChar Dot                }
+  \; {tokChar EndDef             }
   1  {tokChar One                }
   2  {tokChar Two                }
   β  {tokChar Beta               }
   δ  {tokChar IndAbsurd          }
   ς  {tokChar Symm               }
   ρ  {tokChar Rewrite            }
+  φ  {tokChar Phi                }
   ∀  {tokChar ForAll             }
   Π  {tokChar Pi                 }
   ι  {tokChar Intersection       }
   λ  {tokChar Lam                }
-  Π  {tokChar BigLam             }
+  Λ  {tokChar BigLam             }
   ≃  {tokChar Eq                 }
   $alpha [$alpha $digit \_ \']*	{tok_app Name  }
 
@@ -73,7 +75,7 @@ data Token = Token !TokenType
 -- The token type:
 data TokenType =
   Module             |
-  ModuleName Name    |
+  EndDef             |
   LeftRoundBracket   |
   RightRoundBracket  |
   LeftSquareBracket  |
@@ -95,6 +97,7 @@ data TokenType =
   IndAbsurd          |
   Symm               |
   Rewrite            |
+  Phi                |
   ForAll             |
   Pi                 |
   Intersection       |
